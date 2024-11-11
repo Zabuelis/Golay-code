@@ -32,12 +32,19 @@ public class Encryption {
 
     public int[] encryption(int[] vector){
         int[][] G = generatingMatrix();
+        int[] encryptedVector = new int[23];
 
-        return vector;
+        for(int i = 0; i < 12; i++){
+            for(int j = 0; j < 23; j++){
+                encryptedVector[j] ^= (vector[i] * G[i][j]);
+            }
+        }
+
+        return encryptedVector;
     }
 
     // Build a generating matrix (12x23)
-    public int[][] generatingMatrix(){
+    private int[][] generatingMatrix(){
         int k = I.length;
         int n = B[0].length;
         int[][] G = new int[k][n+k];
@@ -46,7 +53,7 @@ public class Encryption {
             for(int j = 0; j < k; j++){
                 G[i][j] = I[i][j];
             }
-            for(int j = 0; j < B[i].length  ; j++){
+            for(int j = 0; j < n; j++){
                 G[i][k+j] = B[i][j];
             }
         }

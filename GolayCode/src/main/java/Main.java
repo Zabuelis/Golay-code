@@ -12,7 +12,8 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         Utilities utilities = new Utilities();
         Encryption encryption = new Encryption();
-        String vector;
+        String userInput = "";
+        int[] vector;
         float errorProbability;
         System.out.println("Please insert the probability of an error [0 <= n <= 1]");
         // Fix the prompt
@@ -21,13 +22,14 @@ public class Main {
         } while (errorProbability < 0 || errorProbability > 1);
         System.out.println("Please insert a vector with binary values [length = 12]");
         do {
-            vector = utilities.readLine(scanner);
-            if(utilities.containsPattern(vector)){
-                vector = utilities.formatVector(vector);
+            userInput = utilities.readLine(scanner);
+            if(utilities.containsPattern(userInput)){
+                userInput = utilities.formatVector(userInput);
             }
-            System.out.println(vector);
-        } while (vector.length() != 12);
-        vector = utilities.intToString(encryption.encryption(utilities.stringToInt(vector)));
+        } while (userInput.length() != 12);
+        vector = utilities.stringToInt(userInput);
+        vector = encryption.encryption(vector);
+        System.out.println(utilities.intToString(vector));
 
 
         scanner.close();
