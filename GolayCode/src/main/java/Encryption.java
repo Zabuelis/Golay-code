@@ -30,7 +30,7 @@ public class Encryption {
         {0,0,0,0,0,0,0,0,0,0,0,1},
     };
 
-    public int encryption(int vector){
+    public int[] encryption(int[] vector){
         int[][] G = generatingMatrix();
 
         return vector;
