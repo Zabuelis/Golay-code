@@ -26,4 +26,13 @@ public class TestGolay {
 
         assertEquals("1234567", result);
     }
+
+    @Test
+    void testEncryption(){
+        int[] input = {1,0,1,0,1,0,1,0,1,0,1,0};
+
+        int[] result = encryption.encryption(input);
+
+        assertArrayEquals(new int[]{1,0,1,0,1,0,1,0,1,0,1,0,0,1,0,0,1,0,1,1,1,1,0}, result);
+    }
 }

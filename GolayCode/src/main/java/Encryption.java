@@ -1,3 +1,5 @@
+import java.lang.reflect.Array;
+
 public class Encryption {
     // Basic Golay's code matrix B (12x11)
     private static final int[][] B = {
@@ -34,9 +36,9 @@ public class Encryption {
         int[][] G = generatingMatrix();
         int[] encryptedVector = new int[23];
 
-        for(int i = 0; i < 12; i++){
-            for(int j = 0; j < 23; j++){
-                encryptedVector[j] ^= (vector[i] * G[i][j]);
+        for(int i = 0; i < G.length; i++){
+            for(int j = 0; j < G[0].length; j++){
+                encryptedVector[j] = (encryptedVector[j] + (vector[i] * G[i][j])) % 2;
             }
         }
 
