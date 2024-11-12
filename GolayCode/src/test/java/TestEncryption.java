@@ -3,7 +3,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class TestGolay {
+public class TestEncryption {
     Encryption encryption = new Encryption();
     Utilities utilities = new Utilities();
 

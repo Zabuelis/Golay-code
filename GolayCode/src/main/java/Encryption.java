@@ -36,6 +36,7 @@ public class Encryption {
         int[][] G = generatingMatrix();
         int[] encryptedVector = new int[23];
 
+        // Multiplying vector with generating matrix (1x23)
         for(int i = 0; i < G.length; i++){
             for(int j = 0; j < G[0].length; j++){
                 encryptedVector[j] = (encryptedVector[j] + (vector[i] * G[i][j])) % 2;
