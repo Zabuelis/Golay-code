@@ -18,6 +18,7 @@ public class Main {
         int[] vector;
         double errorProbability;
         Random rand = new Random();
+        Decryption decryption = new Decryption(encryption.getI());
 
         System.out.println("Please insert the probability of an error [0 <= n <= 1]");
         // Fix the prompt
