@@ -57,5 +57,35 @@ public class TestDecryption {
         assertArrayEquals(new int[]{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1,1,0,0}, result);
     }
 
+    @Test
+    void testSyndromeH(){
+        int[] input = {1,0,1,0,1,0,1,0,1,0,1,0,0,1,0,0,1,0,1,1,1,1,0};
+
+        decryption.decryption(input);
+        int[] sH = decryption.getSH();
+
+        assertArrayEquals(new int[]{1,1,1,1,1,1,1,1,1,1,1,0}, sH);
+
+    }
+
+    @Test
+    void testSyndromeHWithMistakes(){
+        int[] input = {1,1,1,1,1,1,1,0,1,0,1,0,0,1,0,0,1,0,1,1,1,1,0};
+
+        decryption.decryption(input);
+
+        int[] sH = decryption.getSH();
+
+        assertArrayEquals(new int[]{0,1,0,1,0,1,0,0,0,0,0,0}, sH);
+    }
+
+    @Test
+    void decryptedVector(){
+        int[] input = {1,1,1,1,1,1,1,0,1,0,1,0,0,1,0,0,1,0,1,1,1,1,0};
+
+        int[] result = decryption.decryption(input);
+
+        assertArrayEquals(new int[]{1,0,1,0,1,0,1,0,1,0,1,0,0,1,0,0,1,0,1,1,1,1,0},result);
+    }
 
 }

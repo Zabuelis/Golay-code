@@ -1,7 +1,8 @@
 public class Decryption {
 
     private int[][] H;
-    private int[] w, sH = new int[24];
+    private int[] w = new int[24];
+    private int [] sH = new int[12];
     private final int[][] B = {
         {1,1,0,1,1,1,0,0,0,1,0,1},
         {1,0,1,1,1,0,0,0,1,0,1,1},
@@ -16,20 +17,33 @@ public class Decryption {
         {0,1,1,0,1,1,1,0,0,0,1,1},
         {1,1,1,1,1,1,1,1,1,1,1,0}
     };
-    private int u;
+    private int[] u = new int[24];
     private int[] sB;
 
     Decryption(int[][] I){
         setH(I);
     }
 
-    void decryption(int[] vector){
+    public int[] decryption(int[] vector){
         if(isAppendZero(vector)){
             appendZero(vector, w);
         } else {
             appendOne(vector, w);
         }
+        computeSyndromeH();
+        if(countWeight(sH) <= 3){
+            int[] decryptedVector = new int[24];
+            System.arraycopy(sH, 0, u,0, sH.length);
+            for(int i = sH.length; i < 24; i++){
+                u[i] = 0;
+            }
+            for(int i = 0; i < u.length; i++){
+                decryptedVector[i] = (u[i] + w[i]) % 2;
+            }
+            System.arraycopy(decryptedVector, 0, vector, 0, vector.length);
+        }
 
+        return vector;
     }
 
     public int[][] getH(){
@@ -65,26 +79,37 @@ public class Decryption {
     }
 
     // Appending one to the vector to make it (1x24)
-    private int[] appendOne(int[] vector, int[] appendedVector){
-        System.arraycopy(vector, 0, appendedVector, 0, vector.length);
-        appendedVector[23] = 1;
-        return appendedVector;
+    private void appendOne(int[] vector, int[] w){
+        System.arraycopy(vector, 0, w, 0, vector.length);
+        w[23] = 1;
+        this.w = w;
     }
     // Appending zero to the vector to make it (1x24)
-    private int[] appendZero(int[] vector, int[] appendedVector){
-        System.arraycopy(vector, 0, appendedVector, 0, vector.length);
-        appendedVector[23] = 0;
-        return appendedVector;
+    private void appendZero(int[] vector, int[] w){
+        System.arraycopy(vector, 0, w, 0, vector.length);
+        w[23] = 0;
+        this.w = w;
     }
 
     //Calculating the syndrome with matrix H
-    private int[] computeSyndromeH(){
+    private void computeSyndromeH(){
+        int[] syndrome = new int[H[0].length];
         for(int row = 0; row < H.length; row++){
             for(int column = 0; column < H[0].length; column++){
-                sH[column] = (sH[column] + (w[row] * H[row][column])) % 2;
+                syndrome[column] = (syndrome[column] + (w[row] * H[row][column])) % 2;
             }
         }
-        return sH;
+        this.sH = syndrome;
+    }
+
+    private int countWeight(int[] vector){
+        int count = 0;
+        for(int i = 0; i < vector.length; i++) {
+            if(vector[i] == 1){
+                count++;
+            }
+        }
+        return count;
     }
 }
 
