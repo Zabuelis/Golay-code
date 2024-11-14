@@ -1,5 +1,7 @@
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
+
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -62,6 +64,7 @@ public class TestDecryption {
         int[] input = {1,0,1,0,1,0,1,0,1,0,1,0,0,1,0,0,1,0,1,1,1,1,0};
 
         decryption.decryption(input);
+        System.out.println(Arrays.toString(decryption.getW()));
         int[] sH = decryption.getSH();
 
         assertArrayEquals(new int[]{1,1,1,1,1,1,1,1,1,1,1,0}, sH);
@@ -84,6 +87,18 @@ public class TestDecryption {
         int[] input = {1,1,1,1,1,1,1,0,1,0,1,0,0,1,0,0,1,0,1,1,1,1,0};
 
         int[] result = decryption.decryption(input);
+
+        assertArrayEquals(new int[]{1,0,1,0,1,0,1,0,1,0,1,0,0,1,0,0,1,0,1,1,1,1,0},result);
+    }
+
+    @Test
+    void decryptVectorWithAppendOne(){
+        int[] input = {1,1,1,0,1,0,1,0,1,0,1,0,0,1,0,0,1,0,1,1,1,1,1};
+
+        int[] result = decryption.decryption(input);
+        System.out.println(Arrays.toString(decryption.getW()));
+        System.out.println(Arrays.toString(decryption.getSH()));
+
 
         assertArrayEquals(new int[]{1,0,1,0,1,0,1,0,1,0,1,0,0,1,0,0,1,0,1,1,1,1,0},result);
     }
