@@ -2,7 +2,7 @@ public class Decryption {
 
     private int[][] H;  // B x I matrix
     private int[] w = new int[24]; // New code word with appended value
-    private int [] sH = new int[12]; // Syndrome calculated with matrix H
+    private int [] sH = new int[12]; // Syndrome multiplied with matrix H
     private final int[][] B = {     // B matrix
         {1,1,0,1,1,1,0,0,0,1,0,1},
         {1,0,1,1,1,0,0,0,1,0,1,1},
@@ -17,7 +17,7 @@ public class Decryption {
         {0,1,1,0,1,1,1,0,0,0,1,1},
         {1,1,1,1,1,1,1,1,1,1,1,0}
     };
-    private int[] sB;
+    private int[] sB;   // Syndrome multiplied with B matrix
 
     Decryption(int[][] I){
         setH(I);
@@ -31,21 +31,26 @@ public class Decryption {
         }
         sH = computeSyndrome(H, w);
         if(countWeightOfSyndrome(sH) <= 3){
+            System.out.println("calculateWordStep2");
             calculateWordStep2(vector, w, sH);
             return vector;
         } else if(countWeightOfSyndromePlusB(sH) <= 2){
+            System.out.println("calculateWordStep3");
             calculateWordStep3(vector, w, sH);
             return vector;
         } else {
             sB = computeSyndrome(B, sH);
             if(countWeightOfSyndrome(sB) <= 3){
+                System.out.println("calculateWordStep4");
                 calculateWordStep4(vector, w, sB);
                 return vector;
             } else if(countWeightOfSyndromePlusB(sB) <= 2){
+                System.out.println("calculateWordStep6");
                 calculateWordStep6(vector, w, sB);
                 return vector;
             }
         }
+        System.out.println("Vector could not be decrypted.");
         return new int[]{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1};
     }
 
@@ -101,7 +106,7 @@ public class Decryption {
         int[] syndrome = new int[matrix[0].length];
         for(int row = 0; row < matrix.length; row++){
             for(int column = 0; column < matrix[0].length; column++){
-                syndrome[column] = (syndrome[column] + (vector[row] * H[row][column])) % 2;
+                syndrome[column] = (syndrome[column] + (vector[row] * matrix[row][column])) % 2;
             }
         }
 
@@ -125,6 +130,8 @@ public class Decryption {
             count = 0;
             for(int j = 0; j < vector.length; j++){
                 line[j] = (vector[j] + B[i][j]) % 2;
+            }
+            for(int j = 0; j < line.length; j++){
                 if(line[j] == 1){
                     count++;
                 }
@@ -133,7 +140,7 @@ public class Decryption {
                 return count;
             }
         }
-        return count;
+        return 3;
     }
 
     private int findLinePosition(int[] vector){
@@ -144,6 +151,8 @@ public class Decryption {
             count = 0;
             for(int j = 0; j < vector.length; j++){
                 line[j] = (vector[j] + B[i][j]) % 2;
+            }
+            for(int j = 0; j < line.length; j++){
                 if(line[j] == 1){
                     count++;
                 }
@@ -216,7 +225,9 @@ public class Decryption {
             } else {
                 e[i] = 0;
             }
-            u[i+e.length] = (sB[i] + B[position][i]) % 2;
+        }
+        for(int i = 0; i < sB.length; i++){
+            u[i + e.length] = (sB[i] + B[position][i]) % 2;
         }
         System.arraycopy(e, 0,u, 0, e.length);
 
