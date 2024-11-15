@@ -43,7 +43,11 @@ public class TestDecryption {
     void testAppendingOne(){
         int[] input = {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1,1,1};
 
-        decryption.decryption(input);
+        try {
+            decryption.decryption(input);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
         int[] result = decryption.getW();
 
         assertArrayEquals(new int[]{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1,1,1,1}, result);
@@ -53,7 +57,11 @@ public class TestDecryption {
     void testAppendingZero(){
         int[] input = {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1,1,0};
 
-        decryption.decryption(input);
+        try {
+            decryption.decryption(input);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
         int[] result = decryption.getW();
 
         assertArrayEquals(new int[]{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1,1,0,0}, result);
@@ -63,7 +71,11 @@ public class TestDecryption {
     void testSyndromeH(){
         int[] input = {1,0,1,0,1,0,1,0,1,0,1,0,0,1,0,0,1,0,1,1,1,1,0};
 
-        decryption.decryption(input);
+        try {
+            decryption.decryption(input);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
         System.out.println(Arrays.toString(decryption.getW()));
         int[] sH = decryption.getSH();
 
@@ -75,7 +87,11 @@ public class TestDecryption {
     void testSyndromeHWithMistakes(){
         int[] input = {1,1,1,1,1,1,1,0,1,0,1,0,0,1,0,0,1,0,1,1,1,1,0};
 
-        decryption.decryption(input);
+        try {
+            decryption.decryption(input);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
 
         int[] sH = decryption.getSH();
 
@@ -86,7 +102,12 @@ public class TestDecryption {
     void decryptedVector(){
         int[] input = {1,1,1,1,1,1,1,0,1,0,1,0,0,1,0,0,1,0,1,1,1,1,0};
 
-        int[] result = decryption.decryption(input);
+        int[] result = null;
+        try {
+            result = decryption.decryption(input);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
 
         assertArrayEquals(new int[]{1,0,1,0,1,0,1,0,1,0,1,0,0,1,0,0,1,0,1,1,1,1,0},result);
     }
@@ -95,9 +116,12 @@ public class TestDecryption {
     void decryptVectorWithAppendOne(){
         int[] input = {1,1,1,0,1,0,1,0,1,0,1,0,0,1,0,0,1,0,1,1,1,1,1};
 
-        int[] result = decryption.decryption(input);
-        System.out.println(Arrays.toString(decryption.getW()));
-        System.out.println(Arrays.toString(decryption.getSH()));
+        int[] result = null;
+        try {
+            result = decryption.decryption(input);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
 
 
         assertArrayEquals(new int[]{1,0,1,0,1,0,1,0,1,0,1,0,0,1,0,0,1,0,1,1,1,1,0},result);

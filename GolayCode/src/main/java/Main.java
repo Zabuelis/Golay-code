@@ -5,6 +5,7 @@
 //Version: 1.0
 //Tested on Visual Studio Code IDE, Windows 64bit OS
 
+import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -39,6 +40,9 @@ public class Main {
         System.out.println(utilities.intToString(vector));
         vector = channel.channel(vector, errorProbability, rand);
         System.out.println(utilities.intToString(vector));
+        vector = decryption.decryption(vector);
+        System.out.println("Decrypted vector:");
+        System.out.println(Arrays.toString(vector));
 
 
         scanner.close();
