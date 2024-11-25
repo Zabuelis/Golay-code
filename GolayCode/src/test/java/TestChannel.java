@@ -10,11 +10,11 @@ public class TestChannel {
         long seed = 12345L;
         Random rand = new Random(seed);
 
-        int[] input = {1,0,1,0,1,0,1,0,1,0,1,0,0,1,0,0,1,0,1,1,1,1,0};
+        int[][] input = {{1,0,1,0,1,0,1,0,1,0,1,0,0,1,0,0,1,0,1,1,1,1,0}};
         double errorProbability = 0.5;
 
-        int[] result = channel.channel(input, errorProbability, rand);
+        int[][] result = channel.channel(input, errorProbability, rand);
 
-        assertArrayEquals(new int[]{0,0,1,1,0,1,0,0,0,0,1,1,0,0,1,0,1,1,0,1,0,1,1}, result);
+        assertArrayEquals(new int[][]{{0,0,1,1,0,1,0,0,0,0,1,1,0,0,1,0,1,1,0,1,0,1,1}}, result);
     }
 }

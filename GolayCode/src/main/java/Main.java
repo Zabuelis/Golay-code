@@ -3,7 +3,7 @@
 //Contact: karolis.zabulis@mif.stud.vu.lt
 //Description of the program:
 //Version: 1.0
-//Tested on Visual Studio Code IDE, Windows 64bit OS
+//Tested on IntelliJ IDEA, Windows 11 64bit OS
 
 import java.util.Arrays;
 import java.util.Random;
@@ -16,10 +16,10 @@ public class Main {
         Encryption encryption = new Encryption();
         Channel channel = new Channel();
         String userInput = "";
-        int[] vector;
+        int[][] vector;
         double errorProbability;
         Random rand = new Random();
-        Decryption decryption = new Decryption(encryption.getI());
+        Decryption decryption = new Decryption();
 
         System.out.println("Please insert the probability of an error [0 <= n <= 1]");
         // Fix the prompt
