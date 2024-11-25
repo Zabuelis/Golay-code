@@ -2,7 +2,7 @@ public class Decryption {
 
     private int[][] w = new int[1][24]; // New code word with appended value
     private int [][] sH = new int[1][12]; // Syndrome multiplied with matrix H
-    private Utilities utilities;
+    private Utilities utilities = new Utilities();
     private int[][] sB = new int [1][12];   // Syndrome multiplied with B matrix
     private int[][] u = new int[1][24]; // Code word U
     private int [][] v = new int[1][24]; // Decrypted codeword
@@ -18,7 +18,7 @@ public class Decryption {
             w[0][23] = 0;
         }
         // Step 1
-        sH = utilities.matrixMultiplication(Matrices.H, w);
+        sH = utilities.matrixMultiplication(w, Matrices.H);
         // Step 2
         if(weight(sH) <= 3) {
             System.arraycopy(sH[0], 0, u[0], 0, 12);
@@ -38,12 +38,12 @@ public class Decryption {
                 System.arraycopy(utilities.matrixAddition(sH, bi)[0], 0, u[0], 0, 12);
                 System.arraycopy(Matrices.I[i], 0, u[0], 12, 12);
                 v = utilities.matrixAddition(w, u);
-                System.arraycopy(v, 0, decryptedWord, 0, 12);
+                System.arraycopy(v[0], 0, decryptedWord[0], 0, 12);
                 return decryptedWord;
             }
         }
         // Step 4
-        sB = utilities.matrixAddition(sH, Matrices.B);
+        sB = utilities.matrixMultiplication(sH, Matrices.B);
         // Step 5
         if(weight(sB) <= 3) {
             for(int i = 0; i < 12; i++) {
@@ -51,7 +51,7 @@ public class Decryption {
             }
             System.arraycopy(sB[0], 0, u[0], 12, 12);
             v = utilities.matrixAddition(w, u);
-            System.arraycopy(v, 0, decryptedWord, 0, 12);
+            System.arraycopy(v[0], 0, decryptedWord[0], 0, 12);
             return decryptedWord;
         }
         // Step 6
@@ -62,7 +62,7 @@ public class Decryption {
                 System.arraycopy(Matrices.I[i], 0, u[0], 0, 12);
                 System.arraycopy(utilities.matrixAddition(sB, bi)[0], 0, u[0], 12, 12);
                 v = utilities.matrixAddition(w, u);
-                System.arraycopy(v, 0, decryptedWord, 0, 12);
+                System.arraycopy(v[0], 0, decryptedWord[0], 0, 12);
                 return decryptedWord;
             }
         }

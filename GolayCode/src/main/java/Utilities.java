@@ -70,7 +70,7 @@ public class Utilities {
         return resultMatrix;
     }
 
-    public int[][] matrixAddition(int matrixA[][], int matrixB[][]){
+    public int[][] matrixAddition(int[][] matrixA, int[][] matrixB){
         int aRows = matrixA.length, aColumns = matrixA[0].length;
         int bRows = matrixB.length, bColumns = matrixB[0].length;
 
