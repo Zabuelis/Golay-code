@@ -13,6 +13,12 @@ public class Utilities {
         return num;
     }
 
+    public int readNum(Scanner scanner){
+        int number = 0;
+        number = scanner.nextInt();
+        return number;
+    }
+
     public boolean containsPattern(String vector){
         String patterns = "[],{} ";
 
@@ -82,6 +88,26 @@ public class Utilities {
             }
         }
         return result;
+    }
+
+    public int calculateMistakes(int[][] vector, int[][] vectorBeforeChannel){
+        int count = 0;
+        for(int i = 0; i < vector.length; i++){
+            for(int j = 0; j < vector[0].length; j++) {
+                if (vector[i][j] != vectorBeforeChannel[i][j]) {
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
+
+    public void printLocationsOfMistakes(int[][] vector, int[][] vectorBeforeChannel){
+        for(int i = 0; i < vector[0].length; i++){
+            if(vector[0][i] != vectorBeforeChannel[0][i]){
+                System.out.print(i+" ");
+            }
+        }
     }
 
 }

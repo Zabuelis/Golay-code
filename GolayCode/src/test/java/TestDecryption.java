@@ -68,4 +68,14 @@ public class TestDecryption {
         assertArrayEquals(new int[][]{{1,0,1,0,1,0,1,0,1,0,1,0}},result);
     }
 
+    @Test
+    void decryptVectorWith3Mistakes(){
+        int[][] input = {{1,1,1,1,1,1,1,0,1,0,1,0,0,1,0,0,1,0,1,1,1,1,0}};
+        int[][] result;
+        result = decryption.decryption(input);
+
+        assertArrayEquals(new int[][]{{1,0,1,0,1,0,1,0,1,0,1,0}}, result);
+    }
+
+
 }
