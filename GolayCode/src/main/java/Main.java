@@ -84,6 +84,18 @@ public class Main {
             vector = decryption.decryption(vector);
             System.out.println("Decrypted vector:");
             System.out.println(Arrays.toString(vector[0]));
+        } else if(userChoice == 2){
+            System.out.println("Please insert the text that you want to send to the channel");
+            userInput = utilities.readLine(scanner);
+            String[] vectorsOf12Bits = utilities.splitInto12Lenght(utilities.textToBinary(userInput));
+            for(int i = 0; i < vectorsOf12Bits.length; i++){
+                int[][] letterVector = utilities.stringToInt(vectorsOf12Bits[i]);
+
+            }
+
+
+        } else if(userChoice == 3){
+
         }
 
         scanner.close();
