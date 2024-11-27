@@ -2,9 +2,10 @@
 // Vilnius University Mathematics and Informatics faculty.
 // Contact: karolis.zabulis@mif.stud.vu.lt
 // Description of the program: Encryption and decryption using the shorter Golay code (C23) and a channel simulation.
+// The program is able to encrypt a provided vector or some text.
 // Version: 1.0
 // Tested on IntelliJ IDEA, Windows 11 64bit OS
-// To Do: 2nd and 3rd scenario.
+// To Do: 3rd scenario.
 
 import java.util.Arrays;
 import java.util.Random;
@@ -84,18 +85,36 @@ public class Main {
             vector = decryption.decryption(vector);
             System.out.println("Decrypted vector:");
             System.out.println(Arrays.toString(vector[0]));
+
         } else if(userChoice == 2){
             System.out.println("Please insert the text that you want to send to the channel");
-            userInput = utilities.readLine(scanner);
-            String[] vectorsOf12Bits = utilities.splitInto12Lenght(utilities.textToBinary(userInput));
+            userInput = utilities.readMultiLines(scanner);
+
+            int bitLength = utilities.textToBinary(userInput).length();
+            String[] vectorsOf12Bits = utilities.splitInto12Length(utilities.textToBinary(userInput));
+            String[] vectorsAfterChannel = new String[vectorsOf12Bits.length];
+
+            System.out.println("Text after only using channel.");
             for(int i = 0; i < vectorsOf12Bits.length; i++){
                 int[][] letterVector = utilities.stringToInt(vectorsOf12Bits[i]);
-
+                letterVector = channel.channel(letterVector, errorProbability, rand);
+                vectorsAfterChannel[i] = utilities.intToString(letterVector);
             }
+            String text = utilities.stringJoin(vectorsAfterChannel);
+            text = utilities.convertBinaryToText(text, bitLength);
+            System.out.println(text);
 
-
-        } else if(userChoice == 3){
-
+            System.out.println("Text after encryption, channel and decryption.");
+            for(int i = 0; i < vectorsOf12Bits.length; i++){
+                int[][] letterVector = utilities.stringToInt(vectorsOf12Bits[i]);
+                letterVector = encryption.encryption(letterVector);
+                letterVector = channel.channel(letterVector, errorProbability, rand);
+                letterVector = decryption.decryption(letterVector);
+                vectorsOf12Bits[i] = utilities.intToString(letterVector);
+            }
+            text = utilities.stringJoin(vectorsOf12Bits);
+            text = utilities.convertBinaryToText(text, bitLength);
+            System.out.println(text);
         }
 
         scanner.close();

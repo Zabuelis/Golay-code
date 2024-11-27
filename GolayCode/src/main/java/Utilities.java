@@ -1,7 +1,8 @@
 import java.util.Scanner;
 
-// Used for reading lines
+
 public class Utilities {
+    // Used for reading lines
     public String readLine(Scanner scanner){
         String line;
 
@@ -17,6 +18,21 @@ public class Utilities {
         scanner.nextLine();
 
         return num;
+    }
+
+    public String readMultiLines(Scanner scanner){
+        System.out.println("This is a multi-line read to save your input type 'END' and press 'enter'.");
+        StringBuilder str = new StringBuilder();
+        String line;
+        scanner.useDelimiter("\\t");
+        while (true){
+            line = scanner.nextLine();
+            if (line.equals("END")) {
+                break;
+            }
+            str.append(line).append("\n");
+        }
+        return str.toString();
     }
 
     public int readNum(Scanner scanner){
@@ -148,7 +164,7 @@ public class Utilities {
     }
 
     // Splits binary representation into vectors of 12 length
-    public String[] splitInto12Lenght(String binaryLine){
+    public String[] splitInto12Length(String binaryLine){
         int vectorLength = 12;
         int lineLength = binaryLine.length();
         int numberOfLines = lineLength / vectorLength;;
@@ -174,6 +190,22 @@ public class Utilities {
         }
 
         return letters;
+    }
+
+    // Join string array into one string
+    public String stringJoin(String[] lines){
+        return String.join("", lines);
+    }
+
+    // Convert binary string into ASCII representation
+    public String convertBinaryToText(String binaryText, int bitLength){
+        StringBuilder text = new StringBuilder();
+        String trimmedBinaryLine = binaryText.substring(0, bitLength);
+        for(int i = 0; i < trimmedBinaryLine.length(); i+=8){
+            String letter = trimmedBinaryLine.substring(i, i + 8);
+            text.append((char) Integer.parseInt(letter, 2));
+        }
+        return text.toString();
     }
 
 }
