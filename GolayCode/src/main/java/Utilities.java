@@ -169,6 +169,7 @@ public class Utilities {
         int lineLength = binaryLine.length();
         int numberOfLines = lineLength / vectorLength;;
 
+        // Check whether there should be an extra line
         if(lineLength % vectorLength != 0){
             numberOfLines += 1;
         }
@@ -178,12 +179,14 @@ public class Utilities {
         for(int i = 0; i < numberOfLines; i++){
             int start = i * vectorLength;
             int end;
+            // Find the position of substring ending
             if(start + vectorLength > lineLength){
                 end = lineLength;
             } else {
                 end = start + vectorLength;
             }
             letters[i] = binaryLine.substring(start, end);
+            // If letters[i] is not 12 length append 0s to the end
             if(letters[i].length() < lineLength){
                 letters[i] = String.format("%-" + vectorLength + "s", letters[i]).replace(' ', '0');
             }
@@ -201,10 +204,12 @@ public class Utilities {
     public String convertBinaryToText(String binaryText, int bitLength){
         StringBuilder text = new StringBuilder();
         String trimmedBinaryLine = binaryText.substring(0, bitLength);
+
         for(int i = 0; i < trimmedBinaryLine.length(); i+=8){
             String letter = trimmedBinaryLine.substring(i, i + 8);
             text.append((char) Integer.parseInt(letter, 2));
         }
+
         return text.toString();
     }
 
