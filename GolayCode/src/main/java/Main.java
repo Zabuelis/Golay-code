@@ -5,7 +5,7 @@
 // The program is able to encrypt a provided vector or some text.
 // Version: 1.0
 // Tested on IntelliJ IDEA, Windows 11 64bit OS
-// To Do: 3rd scenario.
+// To Do:
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -51,6 +51,7 @@ public class Main {
             }
         }
 
+        // Scenario 1
         if(userChoice == 1) {
             System.out.println("Please insert a vector with binary values [length = 12]");
             do {
@@ -74,7 +75,7 @@ public class Main {
                 System.out.println();
             }
 
-            System.out.println("You can edit the vector now (length has to be 23) if input is left empty the " +
+            System.out.println("You can edit the vector now (length has to be 23) if the input is left empty the " +
                     "vector that returned from the channel will be used.");
 
             do {
@@ -92,6 +93,7 @@ public class Main {
             System.out.println("Decrypted vector:");
             System.out.println(Arrays.toString(vector[0]));
 
+        // Scenario 2
         } else if(userChoice == 2){
             System.out.println("Please insert the text that you want to send to the channel");
             userInput = utilities.readMultiLines(scanner);
@@ -101,7 +103,6 @@ public class Main {
             String[] vectorsAfterChannel = new String[vectorsOf12Bits.length];
             int[][] vectorForParsing;
 
-            System.out.println("Text after only using channel.");
             for(int i = 0; i < vectorsOf12Bits.length; i++){
                 vectorForParsing = utilities.stringToInt(vectorsOf12Bits[i]);
                 vectorForParsing = channel.channel(vectorForParsing, errorProbability, rand);
@@ -109,9 +110,9 @@ public class Main {
             }
             String text = utilities.stringJoin(vectorsAfterChannel);
             text = utilities.convertBinaryToText(text, bitLength);
+            System.out.println("Text after only using channel.");
             System.out.println(text);
 
-            System.out.println("Text after encryption, channel and decryption.");
             for(int i = 0; i < vectorsOf12Bits.length; i++){
                 vectorForParsing = utilities.stringToInt(vectorsOf12Bits[i]);
                 vectorForParsing = encryption.encryption(vectorForParsing);
@@ -121,8 +122,10 @@ public class Main {
             }
             text = utilities.stringJoin(vectorsOf12Bits);
             text = utilities.convertBinaryToText(text, bitLength);
+            System.out.println("Text after encryption, channel and decryption.");
             System.out.println(text);
 
+        // Scenario 3
         } else if(userChoice == 3){
             System.out.println("Please provide a full path of the image with '.bmp' extension.");
             while (true){
@@ -133,17 +136,31 @@ public class Main {
                     System.out.println("Provided path does not lead to a file or does not have a '.bmp' extension.");
                 }
             }
+            Path input = Path.of(userInput);
+            String output = input.getParent().toString();
 
             try {
-                BufferedImage image = ImageIO.read(Path.of(userInput).toFile());
+                System.out.println("Performing image transformations.\nPlease wait.");
+                BufferedImage image = ImageIO.read(input.toFile());
                 int height = image.getHeight();
                 int width = image.getWidth();
                 String fileInBitString = ImageOperations.imageToBitString(image, height, width);
                 String[] vectorsOf12Bits = utilities.splitInto12Length(fileInBitString);
                 int length = fileInBitString.length();
                 int[][] vectorForParsing;
-                System.out.println(length);
+                String[] vectorsAfterChannel = new String[vectorsOf12Bits.length];
 
+                System.out.println("Sending not encrypted image through the channel.\nPlease wait.");
+                for(int i = 0; i < vectorsOf12Bits.length; i++){
+                    vectorForParsing = utilities.stringToInt(vectorsOf12Bits[i]);
+                    vectorForParsing = channel.channel(vectorForParsing, errorProbability, rand);
+                    vectorsAfterChannel[i] = utilities.intToString(vectorForParsing);
+                }
+                String bitImage = utilities.stringJoin(vectorsAfterChannel);
+                image = ImageOperations.bitStringToImage(bitImage, height, width);
+                ImageIO.write(image, "bmp", Path.of(output+"/imageOutOfChannel.bmp").toFile());
+
+                System.out.println("Performing image encryption/decryption and sending through channel.\nPlease wait.");
                 for(int i = 0; i < vectorsOf12Bits.length; i++){
                     vectorForParsing = utilities.stringToInt(vectorsOf12Bits[i]);
                     vectorForParsing = encryption.encryption(vectorForParsing);
@@ -151,14 +168,12 @@ public class Main {
                     vectorForParsing = decryption.decryption(vectorForParsing);
                     vectorsOf12Bits[i] = utilities.intToString(vectorForParsing);
                 }
-                String bitImage = utilities.stringJoin(vectorsOf12Bits);
+
+                bitImage = utilities.stringJoin(vectorsOf12Bits);
                 bitImage = bitImage.substring(0, length);
-
-
                 image = ImageOperations.bitStringToImage(bitImage, height, width);
-                String out = "C:\\Users\\karol\\Desktop\\Uni\\Klaidas taisantys kodai\\Golay-code\\GolayCode\\bmpImages\\outputImage.bmp";
-                Path output = Path.of(out);
-                ImageIO.write(image, "bmp", output.toFile());
+                ImageIO.write(image, "bmp", Path.of(output+"/imageAfterEncryptionDecryption.bmp").toFile());
+                System.out.println("Images were saved in " + output + " directory.");
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

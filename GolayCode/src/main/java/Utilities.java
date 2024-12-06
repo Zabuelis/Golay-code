@@ -27,10 +27,9 @@ public class Utilities {
     }
 
     public String readMultiLines(Scanner scanner){
-        System.out.println("This is a multi-line read to save your input type 'END' and press 'enter'.");
+        System.out.println("This is a multi-line read to save your input type 'END' and press 'Enter'.");
         StringBuilder str = new StringBuilder();
         String line;
-        scanner.useDelimiter("\\t");
         while (true){
             line = scanner.nextLine();
             if (line.equals("END")) {
@@ -89,7 +88,7 @@ public class Utilities {
             for(int j = 0; j < vector[0].length; j++){
                 line.append(String.valueOf(vector[i][j]));
             }
-            if(i != vector.length-1){
+            if(i != vector.length - 1){
                 line.append("\n");
             }
         }
