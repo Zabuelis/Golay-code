@@ -57,3 +57,4 @@ Jeigu raidės dvejetainis vektorius nesudaro 8 bitukų, trūkstantys bitukai yra
 - [ASCII](https://www.geeksforgeeks.org/ascii-table/)
 - [Golay Code](https://klevas.mif.vu.lt/~skersys/doc/ktkt/literatura12.pdf) literatūra.
 - [Klaidas taisančių kodų teorija. Gintaras Skersys VU MIF](https://emokymai.vu.lt/pluginfile.php/59194/mod_resource/content/2/KTKT.pdf).
+- [Picture to bit string conversion](https://stackoverflow.com/questions/65151790/convert-file-bmp-to-binary-and-binary-back-to-file-bmp-in-java).

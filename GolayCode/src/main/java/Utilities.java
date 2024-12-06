@@ -1,3 +1,9 @@
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Path;
 import java.util.Scanner;
 
 
@@ -12,7 +18,7 @@ public class Utilities {
     }
 
     public float readFloat(Scanner scanner){
-        float num = 0;
+        float num;
 
         num = scanner.nextFloat();
         scanner.nextLine();
@@ -36,7 +42,7 @@ public class Utilities {
     }
 
     public int readNum(Scanner scanner){
-        int number = 0;
+        int number;
 
         number = scanner.nextInt();
         scanner.nextLine();
@@ -167,7 +173,7 @@ public class Utilities {
     public String[] splitInto12Length(String binaryLine){
         int vectorLength = 12;
         int lineLength = binaryLine.length();
-        int numberOfLines = lineLength / vectorLength;;
+        int numberOfLines = lineLength / vectorLength;
 
         // Check whether there should be an extra line
         if(lineLength % vectorLength != 0){
@@ -212,5 +218,4 @@ public class Utilities {
 
         return text.toString();
     }
-
 }

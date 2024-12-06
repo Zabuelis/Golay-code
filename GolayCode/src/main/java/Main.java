@@ -7,6 +7,11 @@
 // Tested on IntelliJ IDEA, Windows 11 64bit OS
 // To Do: 3rd scenario.
 
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
@@ -30,7 +35,8 @@ public class Main {
 
         System.out.println("Please select an option");
         System.out.println("[1] Vector encryption and decryption.");
-        System.out.println("[2] Word encryption and decryption.");
+        System.out.println("[2] Text encryption and decryption.");
+        System.out.println("[3] Image encryption and decryption.");
 
         int userChoice = 0;
         boolean isChoiceValid = false;
@@ -38,10 +44,10 @@ public class Main {
         while (!isChoiceValid){
             System.out.println("Enter your choice.");
             userChoice = utilities.readNum(scanner);
-            if(userChoice == 1 || userChoice == 2){
+            if(userChoice == 1 || userChoice == 2 || userChoice == 3){
                 isChoiceValid = true;
             } else{
-                System.out.println("Invalid option. Please insert 1 or 2");
+                System.out.println("Invalid option. Please insert 1, 2 or 3");
             }
         }
 
@@ -93,12 +99,13 @@ public class Main {
             int bitLength = utilities.textToBinary(userInput).length();
             String[] vectorsOf12Bits = utilities.splitInto12Length(utilities.textToBinary(userInput));
             String[] vectorsAfterChannel = new String[vectorsOf12Bits.length];
+            int[][] vectorForParsing;
 
             System.out.println("Text after only using channel.");
             for(int i = 0; i < vectorsOf12Bits.length; i++){
-                int[][] letterVector = utilities.stringToInt(vectorsOf12Bits[i]);
-                letterVector = channel.channel(letterVector, errorProbability, rand);
-                vectorsAfterChannel[i] = utilities.intToString(letterVector);
+                vectorForParsing = utilities.stringToInt(vectorsOf12Bits[i]);
+                vectorForParsing = channel.channel(vectorForParsing, errorProbability, rand);
+                vectorsAfterChannel[i] = utilities.intToString(vectorForParsing);
             }
             String text = utilities.stringJoin(vectorsAfterChannel);
             text = utilities.convertBinaryToText(text, bitLength);
@@ -106,15 +113,55 @@ public class Main {
 
             System.out.println("Text after encryption, channel and decryption.");
             for(int i = 0; i < vectorsOf12Bits.length; i++){
-                int[][] letterVector = utilities.stringToInt(vectorsOf12Bits[i]);
-                letterVector = encryption.encryption(letterVector);
-                letterVector = channel.channel(letterVector, errorProbability, rand);
-                letterVector = decryption.decryption(letterVector);
-                vectorsOf12Bits[i] = utilities.intToString(letterVector);
+                vectorForParsing = utilities.stringToInt(vectorsOf12Bits[i]);
+                vectorForParsing = encryption.encryption(vectorForParsing);
+                vectorForParsing = channel.channel(vectorForParsing, errorProbability, rand);
+                vectorForParsing = decryption.decryption(vectorForParsing);
+                vectorsOf12Bits[i] = utilities.intToString(vectorForParsing);
             }
             text = utilities.stringJoin(vectorsOf12Bits);
             text = utilities.convertBinaryToText(text, bitLength);
             System.out.println(text);
+
+        } else if(userChoice == 3){
+            System.out.println("Please provide a full path of the image with '.bmp' extension.");
+            while (true){
+                userInput = utilities.readLine(scanner);
+                if(ImageOperations.bmpFileValidator(userInput)){
+                    break;
+                } else {
+                    System.out.println("Provided path does not lead to a file or does not have a '.bmp' extension.");
+                }
+            }
+
+            try {
+                BufferedImage image = ImageIO.read(Path.of(userInput).toFile());
+                int height = image.getHeight();
+                int width = image.getWidth();
+                String fileInBitString = ImageOperations.imageToBitString(image, height, width);
+                String[] vectorsOf12Bits = utilities.splitInto12Length(fileInBitString);
+                int length = fileInBitString.length();
+                int[][] vectorForParsing;
+                System.out.println(length);
+
+                for(int i = 0; i < vectorsOf12Bits.length; i++){
+                    vectorForParsing = utilities.stringToInt(vectorsOf12Bits[i]);
+                    vectorForParsing = encryption.encryption(vectorForParsing);
+                    vectorForParsing = channel.channel(vectorForParsing, errorProbability, rand);
+                    vectorForParsing = decryption.decryption(vectorForParsing);
+                    vectorsOf12Bits[i] = utilities.intToString(vectorForParsing);
+                }
+                String bitImage = utilities.stringJoin(vectorsOf12Bits);
+                bitImage = bitImage.substring(0, length);
+
+
+                image = ImageOperations.bitStringToImage(bitImage, height, width);
+                String out = "C:\\Users\\karol\\Desktop\\Uni\\Klaidas taisantys kodai\\Golay-code\\GolayCode\\bmpImages\\outputImage.bmp";
+                Path output = Path.of(out);
+                ImageIO.write(image, "bmp", output.toFile());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
 
         scanner.close();
