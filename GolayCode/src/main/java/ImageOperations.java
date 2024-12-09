@@ -16,9 +16,9 @@ public class ImageOperations {
                 int green = (pixel >> 8) & 0xFF;
                 int blue = pixel & 0xFF;
 
-                bits.append(String.format("%8s", Integer.toBinaryString(red)).replace(' ', '0')).
-                        append(String.format("%8s", Integer.toBinaryString(green)).replace(' ', '0')).
-                        append(String.format("%8s", Integer.toBinaryString(blue)).replace(' ', '0'));
+                bits.append(String.format("%8s", Integer.toBinaryString(red)).replace(' ', '0'));
+                bits.append(String.format("%8s", Integer.toBinaryString(green)).replace(' ', '0'));
+                bits.append(String.format("%8s", Integer.toBinaryString(blue)).replace(' ', '0'));
             }
         }
         return bits.toString();

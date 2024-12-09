@@ -8,7 +8,6 @@
 // To Do:
 
 import javax.imageio.ImageIO;
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.nio.file.Path;
@@ -21,12 +20,12 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         Utilities utilities = new Utilities();
         Encryption encryption = new Encryption();
+        Decryption decryption = new Decryption();
+        Random rand = new Random();
         Channel channel = new Channel();
         String userInput = "";
         int[][] vector;
         double errorProbability;
-        Random rand = new Random();
-        Decryption decryption = new Decryption();
 
         System.out.println("Please insert the probability of an error [0 <= n <= 1]");
         do {
@@ -53,8 +52,8 @@ public class Main {
 
         // Scenario 1
         if(userChoice == 1) {
-            System.out.println("Please insert a vector with binary values [length = 12]");
             do {
+                System.out.println("Please insert a vector with binary values [length = 12]");
                 userInput = utilities.readLine(scanner);
                 if (utilities.containsPattern(userInput)) {
                     userInput = utilities.formatVector(userInput);
@@ -75,10 +74,9 @@ public class Main {
                 System.out.println();
             }
 
-            System.out.println("You can edit the vector now (length has to be 23) if the input is left empty the " +
-                    "vector that returned from the channel will be used.");
-
             do {
+                System.out.println("You can edit the vector now (length has to be 23) if the input is left empty the " +
+                        "vector that returned from the channel will be used.");
                 userInput = utilities.readLine(scanner);
                 if (utilities.containsPattern(userInput)) {
                     userInput = utilities.formatVector(userInput);
@@ -140,10 +138,10 @@ public class Main {
             String output = input.getParent().toString();
 
             try {
-                System.out.println("Performing image transformations.\nPlease wait.");
                 BufferedImage image = ImageIO.read(input.toFile());
                 int height = image.getHeight();
                 int width = image.getWidth();
+                System.out.println("Performing image transformations.\nPlease wait.");
                 String fileInBitString = ImageOperations.imageToBitString(image, height, width);
                 String[] vectorsOf12Bits = utilities.splitInto12Length(fileInBitString);
                 int length = fileInBitString.length();
