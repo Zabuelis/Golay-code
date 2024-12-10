@@ -70,6 +70,7 @@ public class Utilities {
         return vector.replaceAll(patterns, "");
     }
 
+    // Transforms string into a 2D integer array
     public int[][] stringToInt(String vector){
         int[][] numb = new int[1][vector.length()];
 
@@ -160,9 +161,9 @@ public class Utilities {
     public String textToBinary(String text) {
         StringBuilder binaryText = new StringBuilder();
 
-        for (char c : text.toCharArray()) {
-            String binaryString = Integer.toBinaryString(c);
-            binaryText.append(String.format("%8s", binaryString).replace(' ', '0')); // Ensure 8-bit binary
+        for (int i = 0; i < text.length(); i++) {
+            String binaryString = Integer.toBinaryString(text.charAt(i));
+            binaryText.append(String.format("%8s", binaryString).replace(' ', '0'));
         }
 
         return binaryText.toString();

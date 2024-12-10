@@ -3,7 +3,7 @@ public class Decryption {
     private int[][] w = new int[1][24]; // New code word with appended value
     private int [][] sH = new int[1][12]; // Syndrome multiplied with matrix H
     private Utilities utilities = new Utilities();
-    private int[][] sB = new int [1][12];   // Syndrome multiplied with B matrix
+    private int[][] sB = new int [1][12];   // Code word multiplied with B matrix to get syndrome
     private int[][] u = new int[1][24]; // Code word U
     private int [][] v = new int[1][24]; // Decrypted codeword
     private int [][] decryptedWord = new int[1][12]; // Word to return when it is fully decrypted

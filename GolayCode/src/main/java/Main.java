@@ -62,6 +62,7 @@ public class Main {
 
             vector = utilities.stringToInt(userInput);
             vector = encryption.encryption(vector);
+            System.out.println("Encrypted vector.\n" + utilities.intToString(vector));
             int[][] vectorBeforeChannel = new int[1][23];
             System.arraycopy(vector[0], 0, vectorBeforeChannel[0], 0, 23);
             vector = channel.channel(vector, errorProbability, rand);
