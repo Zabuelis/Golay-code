@@ -11,7 +11,6 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -24,7 +23,6 @@ public class Main {
         Random rand = new Random();
         Channel channel = new Channel();
         String userInput = "";
-        int[][] vector;
         double errorProbability;
 
         System.out.println("Please insert the probability of an error [0 <= n <= 1]");
@@ -60,6 +58,7 @@ public class Main {
                 }
             } while (userInput.length() != 12);
 
+            int[][] vector;
             vector = utilities.stringToInt(userInput);
             vector = encryption.encryption(vector);
             System.out.println("Encrypted vector.\n" + utilities.intToString(vector));
@@ -90,7 +89,7 @@ public class Main {
 
             vector = decryption.decryption(vector);
             System.out.println("Decrypted vector:");
-            System.out.println(Arrays.toString(vector[0]));
+            System.out.println(utilities.intToString(vector));
 
         // Scenario 2
         } else if(userChoice == 2){
@@ -144,8 +143,8 @@ public class Main {
                 int width = image.getWidth();
                 System.out.println("Performing image transformations.\nPlease wait.");
                 String fileInBitString = ImageOperations.imageToBitString(image, height, width);
-                String[] vectorsOf12Bits = utilities.splitInto12Length(fileInBitString);
                 int length = fileInBitString.length();
+                String[] vectorsOf12Bits = utilities.splitInto12Length(fileInBitString);
                 int[][] vectorForParsing;
                 String[] vectorsAfterChannel = new String[vectorsOf12Bits.length];
 
@@ -156,6 +155,7 @@ public class Main {
                     vectorsAfterChannel[i] = utilities.intToString(vectorForParsing);
                 }
                 String bitImage = utilities.stringJoin(vectorsAfterChannel);
+                bitImage = bitImage.substring(0, length);
                 image = ImageOperations.bitStringToImage(bitImage, height, width);
                 ImageIO.write(image, "bmp", Path.of(output+"/imageOutOfChannel.bmp").toFile());
 

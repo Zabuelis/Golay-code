@@ -5,7 +5,7 @@ public class Decryption {
     private Utilities utilities = new Utilities();
     private int[][] sB = new int [1][12];   // Code word multiplied with B matrix to get syndrome
     private int[][] u = new int[1][24]; // Code word U
-    private int [][] v = new int[1][24]; // Decrypted codeword
+    private int [][] v = new int[1][24]; // Decrypted code word
     private int [][] decryptedWord = new int[1][12]; // Word to return when it is fully decrypted
 
     // Decryption according the 3.7.1 and 3.6.1 algorithm
@@ -17,9 +17,9 @@ public class Decryption {
         } else {
             w[0][23] = 0;
         }
-        // Step 1 of 3.7.1 algorithm
+        // Step 1 of 3.6.1 algorithm
         sH = utilities.matrixMultiplication(w, Matrices.H);
-        // Step 2 of 3.7.1 algorithm
+        // Step 2 of 3.6.1 algorithm
         if(weight(sH) <= 3) {
             System.arraycopy(sH[0], 0, u[0], 0, 12);
             for (int i = 0; i < 12; i++) {
@@ -29,7 +29,7 @@ public class Decryption {
             System.arraycopy(v[0], 0, decryptedWord[0], 0, 12);
             return decryptedWord;
         }
-        // Step 3 of 3.7.1 algorithm
+        // Step 3 of 3.6.1 algorithm
         int[][] bi;
         for(int i = 0; i < 12; i++){
             bi = new int[1][12];
@@ -42,9 +42,9 @@ public class Decryption {
                 return decryptedWord;
             }
         }
-        // Step 4 of 3.7.1 algorithm
+        // Step 4 of 3.6.1 algorithm
         sB = utilities.matrixMultiplication(sH, Matrices.B);
-        // Step 5 of 3.7.1 algorithm
+        // Step 5 of 3.6.1 algorithm
         if(weight(sB) <= 3) {
             for(int i = 0; i < 12; i++) {
                 u[0][i] = 0;
@@ -54,7 +54,7 @@ public class Decryption {
             System.arraycopy(v[0], 0, decryptedWord[0], 0, 12);
             return decryptedWord;
         }
-        // Step 6 of 3.7.1 algorithm
+        // Step 6 of 3.6.1 algorithm
         for(int i = 0; i < 12; i++){
             bi = new int[1][12];
             System.arraycopy(Matrices.B[i], 0, bi[0], 0, 12);

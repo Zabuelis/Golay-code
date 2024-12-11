@@ -12,8 +12,13 @@ public class ImageOperations {
             for(int j = 0; j < width; j++){
                 int pixel = image.getRGB(j, i);
 
+                // Shift 16 bits to the right to extract value of red (00000000 00000000 AAAAAAAA RRRRRRRR)
+                // Apply bit mask to null all values except the last 8 bits
                 int red = (pixel >> 16) & 0xFF;
+                // Shift 16 bits to the right to extract value of red (00000000 AAAAAAAA RRRRRRRR GGGGGGGG)
+                // Apply bit mask to null all values except the last 8 bits
                 int green = (pixel >> 8) & 0xFF;
+                // Apply bit mask to null all values except the last 8 bits
                 int blue = pixel & 0xFF;
 
                 bits.append(String.format("%8s", Integer.toBinaryString(red)).replace(' ', '0'));

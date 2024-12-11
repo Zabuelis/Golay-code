@@ -1,5 +1,3 @@
-import java.lang.reflect.Array;
-
 public class Encryption {
 
     public int[][] encryption(int[][] vector){
