@@ -1,6 +1,7 @@
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
+import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -8,6 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class TestDecryption {
     Encryption encryption = new Encryption();
     Decryption decryption = new Decryption();
+    Channel channel = new Channel();
 
     @Test
     void testSyndromeH(){
@@ -78,4 +80,14 @@ public class TestDecryption {
     }
 
 
+//    @Test
+//    void experiment(){
+//        double errorProbability = 0.50;
+//        Random rand = new Random();
+//        int[][] vector = {{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}};
+//        vector = encryption.encryption(vector);
+//        vector = channel.channel(vector, errorProbability, rand);
+//        vector = decryption.decryption(vector);
+//        assertArrayEquals(new int[][]{{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}}, vector);
+//    }
 }
