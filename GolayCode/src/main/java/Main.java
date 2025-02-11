@@ -1,6 +1,6 @@
 // This project was made by Karolis Zabulis.
 // Vilnius University Mathematics and Informatics faculty.
-// Contact: karolis.zabulis@mif.stud.vu.lt
+// Contact: ********
 // Description of the program: Encryption and decryption using the shorter Golay code (C23) and a channel simulation.
 // The program is able to encrypt a provided vector or some text.
 // Version: 1.0
